@@ -8,8 +8,14 @@ def checkColWin(col,sign):
          return True
     return False
 
-def checkLegalPosition(row,col,sign):
-    
+def checkFullMatrix():
+    for i in matrix:
+        if i[0] == '_':
+            return False
+    return True
+
+#def checkLegalPosition(row,col,sign):
+
 
 
 res = checkRowWin(1,"x")
