@@ -1,6 +1,6 @@
 import random
 
-def SetMatrixSize():
+def setMatrixSize():
     '''
     get matrix size from user
     :return: matrix size
@@ -14,20 +14,20 @@ def SetMatrixSize():
             answer = 0
     return answer
 
-def ResetMatrix():
+def resetMatrix():
     # Reset all cells in matrix to '_'
     for i in range(size):
         for j in range(size):
             matrix[i][j] = '_'
 
-def PrintMatrix():
+def printMatrix():
     # Display matrix status
     for i in range(size):
         for j in range(size):
             print(matrix[i][j], end=' ')
         print("")
 
-def ChooseFirstPlayerType():
+def chooseFirstPlayerType():
     '''
     Get first user type from user:
     h for human
@@ -40,7 +40,7 @@ def ChooseFirstPlayerType():
     return answer
 
 
-def ChooseSecondPlayerType():
+def chooseSecondPlayerType():
     '''
     Get second user type from user:
     h for human
@@ -53,46 +53,50 @@ def ChooseSecondPlayerType():
         answer = (input("Choose second player (H - for human or C - for computer): ")).lower()
     return answer.lower()
 
-def AllCellsUsed():
+def allCellsUsed(used_cell):
     # Return True if all cells in use else return False
     if used_cell == max_moves:
         return True
     return False
 
-def GameOverDeuce():
+def gameOverDeuce():
     print("########################")
     print("Game over: Deuce")
     print("########################")
 
-def GameOverWin():
+def gameOverWin():
     print("########################")
     print("Game over: player {} win".format(player))
     print("########################")
-    PrintMatrix()
+    printMatrix()
     print("########################")
 
-def SetPlayerType():
+def setPlayerType():
     # Return player type according even or odd movements
     if used_cell % 2 == 0:
         return player1_type
     else:
         return player2_type
 
-def SetPlayer():
+def setPlayer():
     # Return player according even or odd movements
     if used_cell % 2 == 0:
        return player1
     else:
        return player2
 
-def CheckRowWinPossibility():
-    # Check if human player has win possibility by row
-    # Check every row if missing one sign for full row
-    # if possibility exist display message to user
+def checkRowWinPossibility(matrix,size):
+    '''
+        :param matrix: matrix status
+        :param size: matrix size
+        :return:nothing
+        Check if human player has win possibility by row
+        Check every row if missing one sign for full row
+        if possibility exist display message to user
+    '''
     for i in range(size):
         count = 0
         free_cell = ''
-
         for j in range(size):
             if matrix[i][j] == player:
                 count += 1
@@ -103,10 +107,15 @@ def CheckRowWinPossibility():
         if count + 1 == size:
             print("Matchpoint at cell: {}".format(free_cell))
 
-def CheckColWinPossibility():
-    # Check if human player has win possibility by column
-    # Check every column if missing one sign for full column
-    # if possibility exist display message to user
+def checkColWinPossibility(matrix,size):
+    '''
+        :param matrix: matrix status
+        :param size: matrix size
+        :return:nothing
+        Check if human player has win possibility by column
+        Check every column if missing one sign for full column
+        if possibility exist display message to user
+    '''
     for i in range(size):
         count = 0
         free_cell = ''
@@ -120,10 +129,15 @@ def CheckColWinPossibility():
         if count + 1 == size:
             print("Matchpoint at cell: {}".format(free_cell))
 
-def CheckLeftDiagWinPossibility():
-    # Check if human player has win possibility by left diagonal
-    # Check if left diagonal missing one sign for full diagonal
-    # if possibility exist display message to user
+def checkLeftDiagWinPossibility(matrix,size):
+    '''
+        :param matrix: matrix status
+        :param size: matrix size
+        :return:nothing
+        Check if human player has win possibility by left diagonal
+        Check if left diagonal missing one sign for full diagonal
+        if possibility exist display message to user
+    '''
     count = 0
     free_cell = ''
     for i in range(size):
@@ -136,10 +150,15 @@ def CheckLeftDiagWinPossibility():
     if count + 1 == size:
         print("Matchpoint at cell: {}".format(free_cell))
 
-def CheckRightDiagWinPossibility():
-    # Check if human player has win possibility by right diagonal
-    # Check if right diagonal missing one sign for full diagonal
-    # if possibility exist display message to user
+def checkRightDiagWinPossibility(matrix,size):
+    '''
+        :param matrix: matrix status
+        :param size: matrix size
+        :return:nothing
+        Check if human player has win possibility by right diagonal
+        Check if right diagonal missing one sign for full diagonal
+        if possibility exist display message to user
+    '''
     count = 0
     free_cell = ''
     for i in range(size):
@@ -152,71 +171,99 @@ def CheckRightDiagWinPossibility():
     if count + 1 == size:
         print("Matchpoint at cell: {}".format(free_cell))
 
-def CheckDiagWinPossibility():
-    CheckLeftDiagWinPossibility()
-    CheckRightDiagWinPossibility()
+def checkDiagWinPossibility(matrix,size):
+    checkLeftDiagWinPossibility(matrix,size)
+    checkRightDiagWinPossibility(matrix,size)
 
-def CheckWinPossibility():
-    CheckRowWinPossibility()
-    CheckColWinPossibility()
-    CheckDiagWinPossibility()
+def checkWinPossibility(matrix,size):
+    checkRowWinPossibility(matrix,size)
+    checkColWinPossibility(matrix,size)
+    checkDiagWinPossibility(matrix,size)
 
-def GetRowFromUser():
-    # Get number of row from user until it will be legal input(integer)
+def getRowFromUser():
+    '''
+        Get row number from user until it will be legal input(integer)
+        :return: row number
+
+    '''
     while True:
         answer = input("Enter row number: ")
         if answer.isdigit():
             return int(answer)
 
-def GetRowFromComp():
-    # Get random number of row until it will be row with at least one empty cell
+def getRowFromComp():
+    '''
+        Get random number of row until it will be row with at least one empty cell
+        :return: row number
+    '''
     while True:
         x = random.randint(0,size -1)
         for y in range(size):
             if matrix[x][y] == '_':
                 return x
 
-def GetColFromUser():
-    # Get number of column from user until it will be legal input(integer)
+def getColFromUser():
+    '''
+         Get number of column from user until it will be legal input(integer)
+         :return: col number
+     '''
     while True:
         answer = input("Enter column number: ")
         if answer.isdigit():
             return int(answer)
 
-def GetColFromComp():
-    # Get random number of column until it will be empty cell
+def getColFromComp():
+    '''
+        Get random number of column until it will be empty cell
+        :return: row number
+    '''
     y = random.randint(0,size - 1)
     while matrix[row][y] != '_':
         y = random.randint(0, size - 1)
     return y
 
-def GetRow():
+def getRow():
     if player_type == 'h':
-        return GetRowFromUser()
+        return getRowFromUser()
     else:
-        return GetRowFromComp()
+        return getRowFromComp()
 
-def GetCol():
+def getCol():
     if player_type == 'h':
-        return GetColFromUser()
+        return getColFromUser()
     else:
-        return GetColFromComp()
+        return getColFromComp()
 
-def CellInRange():
-    # Return True if cell is in range else return False
+def cellInRange(size):
+    '''
+    Return True if cell is in range else return Fals
+    :param size:
+    :return: True / False
+    '''
     if row in range(size) and col in range(size):
         return True
     return False
 
-def CellIsEmpty():
-    # Return True if cell is empty else return False
-
+def cellIsEmpty(row,col):
+    '''
+    Return True if cell is empty else return False
+    :param row: row number
+    :param col: column number
+    :return: True / False
+    '''
     if matrix[row][col] == '_':
         return True
     return False
 
-def RowIsFull():
-    # Return True if row is full else return False
+def rowIsFull(row,size,player,matrix):
+    '''
+    Return True if row is full else return False
+    :param col: column number
+    :param size: matrix size
+    :param player: player char
+    :param matrix: matrix status
+    :return: True / False
+    '''
     retcode = True
     for i in range(size):
         if matrix[row][i] != player:
@@ -224,8 +271,15 @@ def RowIsFull():
             break
     return retcode
 
-def ColIsFull():
-    # Return True if column is full else return False
+def colIsFull(col,size,player,matrix):
+    '''
+    Return True if column is full else return False
+    :param col: column number
+    :param size: matrix size
+    :param player: player char
+    :param matrix: matrix status
+    :return: True / False
+    '''
     retcode = True
     for i in range(size):
         if matrix[i][col] != player:
@@ -233,8 +287,14 @@ def ColIsFull():
             break
     return retcode
 
-def LeftDiagIsFull():
-    # Return True if left diagonal is full else return False
+def leftDiagIsFull(size,player,matrix):
+    '''
+    Return True if left diagonal is full else return False
+    :param size: matrix size
+    :param player: player char
+    :param matrix: matrix status
+    :return: True / False
+    '''
     retcode = True
     for i in range(size):
         if matrix[i][i] != player:
@@ -242,8 +302,14 @@ def LeftDiagIsFull():
             break
     return retcode
 
-def RightDiagIsFull():
-    # Return True if right diagonal is full else return False
+def rightDiagIsFull(size,player,matrix):
+    '''
+    Return True if right diagonal is full else return False
+    :param size: matrix size
+    :param player: player char
+    :param matrix: matrix status
+    :return: True / False
+    '''
     retcode = True
     for i in range(size):
         if matrix[i][size - 1 - i] != player:
@@ -251,25 +317,33 @@ def RightDiagIsFull():
             break
     return retcode
 
-def DiagIsFull():
-    # Return True if one diagonal at least is full else return False
+def diagIsFull(row,col,size,player,matrix):
+    '''
+    Return True if one diagonal at least is full else return False
+    :param row: row number
+    :param col: column number
+    :param size: matrix size
+    :param player: player char
+    :param matrix: matrix status
+    :return: True / False
+    '''
     if row == col:
         if size % 2 == 1:
-            return LeftDiagIsFull() or RightDiagIsFull()
+            return leftDiagIsFull(size,player,matrix) or rightDiagIsFull(size,player,matrix)
         else:
-            return LeftDiagIsFull()
+            return leftDiagIsFull(size,player,matrix)
     elif row + col + 1 == size:
-        return RightDiagIsFull()
+        return rightDiagIsFull(size,player,matrix)
     else:
         return False
 
-def PlayerWinTheGame():
+def playerWinTheGame(row,col,size,player,matrix):
     # Return True if player win the game else return False
-    if RowIsFull() or ColIsFull() or DiagIsFull():
+    if rowIsFull(row,size,player,matrix) or colIsFull(col,size,player,matrix) or diagIsFull(row,col,size,player,matrix):
         return True
     return False
 
-def PlayAgain():
+def playAgain():
     # Return True if player want to play another game else return False
     answer = None
     while answer not in ['y', 'n']:
@@ -286,37 +360,43 @@ player1 = 'x'
 player2 = 'o'
 want_to_play = True
 
-size = SetMatrixSize()
+size = setMatrixSize()
 matrix = [[0] * size for i in range(size)]
 max_moves = size ** 2
 
 while want_to_play:
-    player1_type = ChooseFirstPlayerType()
-    player2_type = ChooseSecondPlayerType()
-    ResetMatrix()
+    player1_type = chooseFirstPlayerType()
+    player2_type = chooseSecondPlayerType()
+    resetMatrix()
     used_cell = 0
     while True:
-        PrintMatrix()
-        if AllCellsUsed():
-            GameOverDeuce()
-            want_to_play = AnotherGame()
+        printMatrix()
+        if allCellsUsed(used_cell):
+            gameOverDeuce()
+            want_to_play = playAgain()
             break
-        player = SetPlayer()
-        player_type = SetPlayerType()
+        player = setPlayer()
+        player_type = setPlayerType()
         print("Player {} is playing now.".format(player))
+        # Check for win possibility only for human player and player has minimum moves to win
         if size * 2 - 2 <= used_cell and player_type == 'h':
-            CheckWinPossibility()
-        row = GetRow()
-        col = GetCol()
-        if CellInRange():
-            if CellIsEmpty():
+            checkWinPossibility(matrix,size)
+        row = getRow()
+        col = getCol()
+        if cellInRange(size):
+            if cellIsEmpty(row,col):
                 matrix[row][col] = player
                 used_cell += 1
-                if size * 2 - 1 <= used_cell and PlayerWinTheGame():
-                    GameOverWin()
-                    want_to_play = PlayAgain()
+                if size * 2 - 1 <= used_cell and playerWinTheGame(row,col,size,player,matrix):
+                    gameOverWin()
+                    want_to_play = playAgain()
                     break
             else:
                 print("Cell not empty try another cell")
         else:
             print("Cell not in range try again")
+
+
+
+
+
